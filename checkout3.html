@@ -162,7 +162,7 @@
                                         <span class="text-gray-1">Vee Bar Stool</span>
                                         <p class="text-gray-2">1 x 1.000.000</p>
                                     </div>
-                                    
+
                                 </div>
 
                                 <div class="row">
@@ -175,7 +175,7 @@
                                     </div>
 
                                 </div>
-                                
+
                                 <div class="row less-padding" style="background: #3E3F44;">
                                     <div class="col-sm-6 col-xs-6 less-padding"><h4><small style="color: #C9C9C9;">Total</small><br><span style="color:#fff; font: 18px Helvetica">IDR 3.000.000</span></h4></div>
                                     <div class="col-sm-6 col-xs-6 less-padding">
@@ -188,7 +188,7 @@
                     </ul>
                 </li>
                 <li><a href="#">Search</a></li>
-                
+
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -204,7 +204,7 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="shoppingCart.html">Cart</a></li>
             <li><a href="checkout1.html">Customer Information</a></li>
-            <li><a href="checkout2.html">Shipping Mehtod</a></li>
+            <li><a href="checkout2.html">Shipping Method</a></li>
             <li>Payment Method</li>
         </ol>
 
@@ -288,10 +288,10 @@
 
                 <div class="">
                     <div class="box-bg-white">
-                        <h3 class="section-title">Alamat Pengiriman</h3>
+                        <h3 class="section-title">Shipping Address</h3>
                         <div class="row">
                             <div class="col-sm-10">
-                                <p class="text-gray-4">Jalan Madrasah 2 no 30 D RT 08 / RW 02 Kelurahan Sukabumi Utara Kecamatan Kebon Jeruk Jakarta 11540</p>
+                                <p class="text-gray-4">Tower 49 Capital, c/o University at Albany Downtown Campus, 207 Sheridan Ave, Albany, NY 12210 USA</p>
                             </div>
 
                             <div class="col-sm-2">
@@ -300,10 +300,10 @@
                         </div>
 
 
-                        <h3 class="section-title">Waktu Kedatangan Pesanan</h3>
+                        <h3 class="section-title">Delivery Window</h3>
                         <div class="row">
                             <div class="col-sm-10">
-                                <p class="text-gray-4"><strong style="font-size: 24px" class="text-black">12:30</strong> <span>Diantar oleh <strong class="text-black">Porter.id</strong>. Estimasi kedatangan 1 jam Rp 25.000</span></p>
+                                <p class="text-gray-4"><strong style="font-size: 24px" class="text-black">June 24 12:30PM</strong> <span>Delivered by <strong class="text-black">DHL</strong>. <small>* Estimated arrival date.</small></span></p>
                             </div>
 
                             <div class="col-sm-2">
@@ -316,32 +316,69 @@
 
                 <div class="">
                     <div class="box-bg-white col-md-12">
-                        <h3 class="section-title">Metode Pembayaran Bank Transfer</h3>
+                        <h3 class="section-title">Payment Options</h3>
 
-                        <p class="text-gray-4">Terima kasih atas kepercayaanmu telah berbelanja di Backtokimi.com. <br>Mohon segera lakukan pembayaran sebelum:</p>
-                        <h4>Jumat, 11 Agustus 2017 Pukul 17:13 WIB (1x24 jam)</h4>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="paymentMethod" id="paymentMethod1" value="card">
+                                <strong>Pay with Credit Card</strong>
+                                <img src="/images/card-logos.png" width="50%"/>
+                            </label>
+                        </div>
 
-                        <p class="text-gray-4">Lakukan pembayaran sebesar:</p>
-                        <h4>IDR 232.140</h4>
-                        <p class="text-gray-4">TEPAT hingga 3 digit terakhir. Perbedaan nilai transfer akan menghambat proses verifikasi</p>
-                        <p>Pembayaran dapat dilakukan ke  nomor rekening a/n <strong>PT Maya Katalis Cipta Buana</strong>, BCA Yos Sudarso</p>
-                        <img src="images/bca.gif">  <p style="font-size: 18px; line-height: 50px;"><strong>Nomor Rekening 691 035 5536</strong> </p>
+                        <div class="clearfix" style="margin-bottom: 30px;"></div>
 
-
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="paymentMethod" id="paymentMethod2" value="usdc">
+                                <strong>Pay with USDC</strong>
+                                <img src="/images/usdcoin.png" width="18%" />
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <a href="checkout2.html" class="btn button-yellow"><i class="fa fa-angle-left" aria-hidden="true"></i> Shipping Method</a>
-                <a href="thankyou.html" class="btn btn-default pull-right button-black hidden-xs">Complete Order <i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                <a href="thankyou.html" class="btn btn-default pull-right button-black visible-xs">Complete Order <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                <a href="thankyou.html" class="btn btn-default pull-right button-black hidden">Complete Order <i class="fa fa-angle-right" aria-hidden="true"></i></a>
                 <div class="clearfix maya-small-padding"></div>
 
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade bs-example-modal-lg" id="usdcModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel">
+                                <img src="/images/usdcoin_logo.png" height="25px" />
+                                Pay with USD Coin</h4>
+                        </div>
+                        <div class="modal-body ">
+                            <!-- <strong>Scan the QR code or copy and paste the payment details into your wallet</strong> -->
+                            <h1 class="text-center" style="margin-top: 10px;">48.91 USDC</h3>
+                            <p class="text-gray-2 text-center">1 USD = 14,216 IDR</p>
+                            <!-- QR code is generated dynamically -->
+                            <img class="center-block" id="qrCode"/>
+                            <p class="text-gray-2">For security and fraud prevention reasons, we require <strong>ten</strong> block confirmations on the ETH blockchain
+                            before your payment is marked as complete.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="progress progress-striped active">
+                                <div class="progress-bar" style="width: 100%" id="paymentProgress">
+                                    <strong>Waiting for payment...</strong>
+                                </div>
+                            </div>
+                            <!-- <button type="button" class="btn btn-default button-black-medium" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button> -->
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="col-md-4">
                 <div class="box-bg-white">
                     <div class="clearfix maya-small-padding"></div>
-                    <h3 class="text-right text-oswald">Need Help ? </h3>
-                    <p class="text-right text-gray-3 text-medium text-thin">Find any troubles? We will respond. Call or write question by email</p>
+                    <h3 class="text-right text-oswald">Need Help?</h3>
+                    <p class="text-right text-gray-3 text-medium text-thin">We are here to support you. Call or email us.</p>
                     <hr>
                     <div class="row">
                         <div class="col-md-6">
@@ -373,6 +410,58 @@
 
 <!--kimi basic js-->
 <script src="js/kimi.js"></script>
+
+<!--ethereum js-->
+<script src="js/ethereum/etherscan.js"></script>
+
+<script async>
+    const etherscan = new Etherscan();
+    const receiveAddress = "0xA910f92ACdAf488fa6eF02174fb86208Ad7722ba";
+    const qrCodeImage = `https://chart.googleapis.com/chart?chs=350x350&cht=qr&chl=ethereum:${receiveAddress}`;
+    let startingBalance = '';
+    let pollInterval = null;
+
+    // On page load, get the current address balance so we have a starting point
+    getAddressBalanceFormatted(receiveAddress).then((bal) => {
+        startingBalance = bal;
+    });
+
+    // Show USDC Modal when selected as a payment
+    $('#paymentMethod2').on('change', function () {
+        $('#qrCode').attr('src', qrCodeImage);
+        $('#usdcModal').modal({
+            keyboard: false,
+            backdrop: 'static'
+        });
+
+        // Begin polling for balance changes since we expect payment (modal is open)
+        pollInterval = setInterval(() => {
+            pollForBalanceChanges();
+        }, 3000); // every 3s
+    });
+
+    async function getAddressBalanceFormatted(address) {
+        const balance = await etherscan.getAddressBalance(address).then((res) => {
+            return res.result / Math.pow(10, 6);
+        });
+        return balance;
+    }
+
+    function pollForBalanceChanges() {
+        getAddressBalanceFormatted(receiveAddress)
+            .then((currentBalance) => {
+                if (currentBalance > startingBalance) {
+                    clearInterval(pollInterval);
+                } else {
+                    $('#paymentProgress').addClass('progress-bar-success');
+                    $('#paymentProgress').html('<strong>Payment received, awaiting confirmations...</strong>');
+                    console.log(`${currentBalance} is lte ${startingBalance}`);
+                }
+            }).catch((e) => {
+                console.error(e);
+            });
+    }
+</script>
 
 </body>
 </html>
