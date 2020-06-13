@@ -338,7 +338,7 @@
                     </div>
                 </div>
                 <a href="checkout2.html" class="btn button-yellow"><i class="fa fa-angle-left" aria-hidden="true"></i> Shipping Method</a>
-                <a href="thankyou.html" class="btn btn-default pull-right button-black hidden">Complete Order <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                <a href="thankyou.html" class="btn btn-default pull-right button-black hidden">Place Order <i class="fa fa-angle-right" aria-hidden="true"></i></a>
                 <div class="clearfix maya-small-padding"></div>
 
             </div>
@@ -354,21 +354,26 @@
                         </div>
                         <div class="modal-body ">
                             <!-- <strong>Scan the QR code or copy and paste the payment details into your wallet</strong> -->
+                            <h6 class="text-gray-1 text-center">To make a payment, send USDC to the address below</h6>
                             <h1 class="text-center" style="margin-top: 10px;">48.91 USDC</h3>
-                            <p class="text-gray-2 text-center">1 USD = 14,216 IDR</p>
+                            <p class="text-gray-3 text-center">1 USD = 60,216 IDR</p>
                             <!-- QR code is generated dynamically -->
                             <img class="center-block" id="qrCode"/>
                             <p class="text-gray-2">For security and fraud prevention reasons, we require <strong>ten</strong> block confirmations on the ETH blockchain
                             before your payment is marked as complete.</p>
                         </div>
                         <div class="modal-footer">
-                            <div class="progress progress-striped active">
+                            <div class="progress progress-striped active" style="margin-bottom: 0px">
                                 <div class="progress-bar" style="width: 100%" id="paymentProgress">
-                                    <strong>Waiting for payment...</strong>
+                                    <strong>Awaiting payment...</strong>
                                 </div>
                             </div>
-                            <!-- <button type="button" class="btn btn-default button-black-medium" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button> -->
+                            <p class="text-center text-gray-1" id="confirmationStatus" style="margin-top: 10px; display: none">
+                                <mark>
+                                    Your payment has received
+                                    <strong id="currentConfirms">0</strong> out of <strong id="requiredConfirms">10</strong> confirmations required for verification.
+                                </mark>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -414,9 +419,9 @@
 <!--ethereum js-->
 <script src="js/ethereum/etherscan.js"></script>
 
-<script async>
-    const etherscan = new Etherscan();
-    const receiveAddress = "0xA910f92ACdAf488fa6eF02174fb86208Ad7722ba";
+<script>
+    const etherscan = new Etherscan('testnet');
+    const receiveAddress = "0x866870D8B71d27FCa55473ccaa487DB326d1724B";
     const qrCodeImage = `https://chart.googleapis.com/chart?chs=350x350&cht=qr&chl=ethereum:${receiveAddress}`;
     let startingBalance = '';
     let pollInterval = null;
@@ -426,7 +431,7 @@
         startingBalance = bal;
     });
 
-    // Show USDC Modal when selected as a payment
+    // Show USDC modal when selected as a payment
     $('#paymentMethod2').on('change', function () {
         $('#qrCode').attr('src', qrCodeImage);
         $('#usdcModal').modal({
@@ -437,7 +442,7 @@
         // Begin polling for balance changes since we expect payment (modal is open)
         pollInterval = setInterval(() => {
             pollForBalanceChanges();
-        }, 3000); // every 3s
+        }, 4000); // every 4s
     });
 
     async function getAddressBalanceFormatted(address) {
@@ -449,17 +454,49 @@
 
     function pollForBalanceChanges() {
         getAddressBalanceFormatted(receiveAddress)
-            .then((currentBalance) => {
-                if (currentBalance > startingBalance) {
-                    clearInterval(pollInterval);
-                } else {
-                    $('#paymentProgress').addClass('progress-bar-success');
-                    $('#paymentProgress').html('<strong>Payment received, awaiting confirmations...</strong>');
+            .then(async (currentBalance) => {
+                if (currentBalance <= startingBalance) {
                     console.log(`${currentBalance} is lte ${startingBalance}`);
+                    return;
+                }
+
+                // If the balance increases, fetch the most recent txns
+                const transfers =  await etherscan.getMostRecentTokenTransfers(receiveAddress);
+                if (transfers.result.length === 0) {
+                    console.log('No tx found but address balance went up; likely a pending tx');
+                    return;
+                }
+
+                // Only look at the most recent receive (rather than sends)
+                const mostRecentReceive = transfers.result.find(tx => tx.to == receiveAddress.toLowerCase());
+                console.log(`Found a ${mostRecentReceive.value} ${mostRecentReceive.tokenSymbol} receive sent at ${new Date(mostRecentReceive.timeStamp * 1000)}`);
+
+                const currentConfirms = $('#currentConfirms').text();
+                const requiredConfirms = $('#requiredConfirms').text();
+
+                if (currentConfirms === '0') {
+                    showPaymentVerification();
+                }
+                $('#currentConfirms').text(mostRecentReceive.confirmations);
+
+                if (mostRecentReceive.confirmations >= requiredConfirms) {
+                    clearInterval(pollInterval);
+                    completePurchase();
                 }
             }).catch((e) => {
                 console.error(e);
             });
+    }
+
+    function showPaymentVerification() {
+        $('#paymentProgress').addClass('progress-bar-success');
+        $('#paymentProgress').html('<strong>Verifying payment...</strong>');
+        $('#confirmationStatus').show();
+    }
+
+    function completePurchase() {
+        $('#usdcModal').modal('hide');
+        location.href = '/thankyou.html';
     }
 </script>
 
