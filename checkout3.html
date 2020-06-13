@@ -421,7 +421,7 @@
 
 <script>
     const etherscan = new Etherscan('testnet');
-    const receiveAddress = "0x866870D8B71d27FCa55473ccaa487DB326d1724B";
+    const receiveAddress = "0xD71295169658f5d0e8C19e6B42C14223D54378Ca";
     const qrCodeImage = `https://chart.googleapis.com/chart?chs=350x350&cht=qr&chl=ethereum:${receiveAddress}`;
     let startingBalance = '';
     let pollInterval = null;
@@ -468,8 +468,8 @@
                 }
 
                 // Only look at the most recent receive (rather than sends)
-                const mostRecentReceive = transfers.result.find(tx => tx.to == receiveAddress.toLowerCase());
-                console.log(`Found a ${mostRecentReceive.value} ${mostRecentReceive.tokenSymbol} receive sent at ${new Date(mostRecentReceive.timeStamp * 1000)}`);
+                const newestReceive = transfers.result.find(tx => tx.to == receiveAddress.toLowerCase());
+                console.log(`Found a ${newestReceive.value} ${newestReceive.tokenSymbol} receive sent at ${new Date(newestReceive.timeStamp * 1000)}`);
 
                 const currentConfirms = $('#currentConfirms').text();
                 const requiredConfirms = $('#requiredConfirms').text();
@@ -477,9 +477,9 @@
                 if (currentConfirms === '0') {
                     showPaymentVerification();
                 }
-                $('#currentConfirms').text(mostRecentReceive.confirmations);
+                $('#currentConfirms').text(newestReceive.confirmations);
 
-                if (mostRecentReceive.confirmations >= requiredConfirms) {
+                if (newestReceive.confirmations >= requiredConfirms) {
                     clearInterval(pollInterval);
                     completePurchase();
                 }
