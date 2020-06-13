@@ -185,13 +185,14 @@
             <p>1 order</p>
         </div>
         <div class="col-md-4">
-            <h3 class="text-thin">This Week Sales</h3>
-            <h2>$5,230</h2>
+            <h3 class="text-thin">Account Balance</h3>
+            <h2 id="balance" style="margin-bottom: 10px;">-</h2>
+            <button class="btn button-yellow">Pay vendor</button>
         </div>
         <div class="col-md-4">
             <h3 class="text-thin">Payment Method</h3>
             <p>Wallet transfer</p>
-            <p id="wallet-address">0x2910543af39aba0cd09dbb2d50200b3e800a63d2</p>
+            <p id="wallet-address"></p>
         </div>
     </div>
 </div>
@@ -256,33 +257,14 @@
             <p>Reviews: <span class="text-bold">21 Reviews</span></p>
         </div>
         <div class="col-md-3">
-            <p>Join: <span class="text-bold">April 2019</span></p>
-            <p>Favourites: <span class="text-bold">290</span></p>
+            <p>Joined: <span class="text-bold">April 2019</span></p>
+            <p>Favorites: <span class="text-bold">290</span></p>
         </div>
         <div class="col-md-4">
             <p>Page: <a href="channelDetail.html" class="text-secondary text-bold">/sellemore</a></p>
             <p>Email: <a class="text-secondary text-bold" href="mailto:">info@sellemore.com</a></p>
             <p>Phone: 1.855.730.9666</p>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-2">
-            <!--<img src="images/sucicakes_logo.png">-->
-            <!--&lt;!&ndash;<a href="channelEdit.html" class="btn button-red">Edit</a>&ndash;&gt;-->
-        </div>
-        <div class="col-md-3">
-            <strong>Account balance</strong>
-            <h3 class="text-secondary text-green">$ 0.00</h3>
-            <button class="btn button-yellow">Pay vendor</button>
-        </div>
-
-        <!-- <div class="col-md-4">
-            <address>
-                Address: Jl. Rukan Taman Meruya Blok M No. 37, Jakarta Barat 11620
-            </address>
-            <a href="channelEdit.html" class="btn button-yellow">Edit</a>
-        </div> -->
     </div>
 </div>
 
@@ -727,6 +709,66 @@ Below are some of the projects which we already done.
 <!--kimi basic js-->
 <script src="js/kimi.js"></script>
 
+<script>
+(function() {
+    const apiRoot = "https://api.etherscan.io/api";
+    const apiKey = "USVJV76EYYNNG4682ES8KA1T85I5RJ9GW1";
+    const address = "0xddbd2b932c763ba5b1b7ae3b362eac3e8d40121a";
+
+    async function getETHPrice() {
+        try {
+            const res = await fetch(`${apiRoot}?module=stats&action=ethprice&apikey=${apiKey}`)
+            const data = await res.json();
+            if (data && data.result && data.result.ethusd) {
+                return Promise.resolve(data.result.ethusd);
+            } else {
+                return Promise.reject("Error fetching ETH price.")
+            }
+        } catch (error) {
+            return Promise.reject(error)
+        }
+    }
+
+    async function fetchBalanceFromAddress(address) {
+        try {
+            const res = await fetch(`${apiRoot}?module=account&action=balance&address=${address}&tag=latest&apikey=${apiKey}`);
+            const data = await res.json();
+            if (data && data.result) {
+                return Promise.resolve(data.result);
+            } else {
+                return Promise.reject("Error fetching balance.")
+            }
+        } catch (error) {
+            return Promise.reject(error)
+        }
+    }
+
+    function formatDollarAmount(total) {
+        return '$' + parseFloat(total, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString();
+    }
+
+    async function showBalance() {
+        const weiValueForEther = 1e18; //1 ETH
+        try {
+            const price = await getETHPrice();
+            const balanceInWei = await fetchBalanceFromAddress(address);
+
+            const balanceInEther = balanceInWei / weiValueForEther
+            const balanceInUSD = balanceInEther * price
+
+            $('#balance').text(formatDollarAmount(balanceInUSD));
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    function showAddress() {
+        $('#wallet-address').text(`Address: ${address.slice(0,10)}`);
+    }
+
+    showAddress();
+    showBalance();
+}());
 </script>
 </body>
 </html>
