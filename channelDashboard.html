@@ -746,19 +746,6 @@ Below are some of the projects which we already done.
     let startingBalance = '';
     let pollInterval = null;
 
-    async function fetchBalanceFromAddress(address) {
-        try {
-            const data = await etherscan.getAddressBalance(address);
-            if (data && data.result) {
-                return Promise.resolve(data.result);
-            } else {
-                return Promise.reject("Error fetching balance.")
-            }
-        } catch (error) {
-            return Promise.reject(error)
-        }
-    }
-
     async function showBalance() {
         // show balance in header and modal
         $('#balance').text(accountBalance);
@@ -779,9 +766,16 @@ Below are some of the projects which we already done.
         $('#withdrawModal').modal('hide');
     }
 
+    async function getAddressBalanceFormatted(address) {
+        const balance = await etherscan.getAddressBalance(address).then((res) => {
+            return res.result / Math.pow(10, 6);
+        });
+        return balance;
+    }
+
     async function pollForBalanceChanges() {
         try {
-            const currentBalance = await fetchBalanceFromAddress(toAddress)
+            const currentBalance = await getAddressBalanceFormatted(toAddress)
 
             if (currentBalance <= startingBalance) {
                 console.log(`${currentBalance} is lte ${startingBalance}`);
@@ -824,7 +818,7 @@ Below are some of the projects which we already done.
         });
 
         try {
-            startingBalance = await fetchBalanceFromAddress(toAddress);
+            startingBalance = await getAddressBalanceFormatted(toAddress);
         } catch (error) {
             console.log(error);
         }
