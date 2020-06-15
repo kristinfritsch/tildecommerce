@@ -31,6 +31,12 @@ class Etherscan {
     }
   }
 
+  getETHPrice() {
+    return $.getJSON(
+      `https://${this.apiHost}/api?module=stats&action=ethprice&apikey=${this.apiKey}`
+    );
+  }
+
   getAddressBalance(address) {
     return $.getJSON(
       `https://${this.apiHost}/api?module=account&action=tokenbalance&contractaddress=${this.contractAddress}&address=${address}&tag=latest&apikey=${this.apiKey}`
