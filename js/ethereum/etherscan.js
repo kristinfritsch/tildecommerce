@@ -33,7 +33,7 @@ class Etherscan {
 
   getETHPrice() {
     return $.getJSON(
-      `https://${this.apiHost}/api?module=stats&action=ethprice&apikey=${this.apiKey}`
+      `https://${this.apiHost}/api?module=stats&&contractaddress=${this.contractAddress}&action=ethprice&apikey=${this.apiKey}`
     );
   }
 
