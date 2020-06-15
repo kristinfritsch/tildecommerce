@@ -191,8 +191,8 @@
         </div>
         <div class="col-md-4">
             <h3 class="text-thin">Payment Method</h3>
-            <p>Wallet transfer</p>
-            <p id="wallet-address"></p>
+            Receive address: <span id="wallet-address"></span>
+            <button class="btn button-yellow" style="margin-top: 24px;">Edit receive address</button>
         </div>
     </div>
 </div>
@@ -312,15 +312,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Withdrawing account balance</h4>
+                <h4 class="modal-title" id="myModalLabel">Withdraw account balance</h4>
             </div>
             <div class="modal-body" style="text-align: center;">
-                <h4>Receive Address:</h4>
-                <span id="modalAddress"></span>
-                <br/>
-                <br/>
                 <h4>Amount:</h4>
                 <h3 id="modalBalance"></h3>
+                <br/>
+                <h4>Receive Address:</h4>
+                <span id="modalAddress"></span>
                 <br/>
             </div>
             <div class="modal-footer">
@@ -741,25 +740,11 @@ Below are some of the projects which we already done.
 
 <script>
 (function() {
-    const apiRoot = "https://api.etherscan.io/api";
     const etherscan = new Etherscan('testnet');
-    const fromAddress = "0xD71295169658f5d0e8C19e6B42C14223D54378Ca";
     const toAddress = "0xD71295169658f5d0e8C19e6B42C14223D54378Ca";
+    const accountBalance = "USDC 48.91";
     let startingBalance = '';
     let pollInterval = null;
-
-    async function getETHPrice() {
-        try {
-            const data = await etherscan.getETHPrice();
-            if (data && data.result && data.result.ethusd) {
-                return Promise.resolve(data.result.ethusd);
-            } else {
-                return Promise.reject("Error fetching ETH price.")
-            }
-        } catch (error) {
-            return Promise.reject(error)
-        }
-    }
 
     async function fetchBalanceFromAddress(address) {
         try {
@@ -774,29 +759,15 @@ Below are some of the projects which we already done.
         }
     }
 
-    function formatDollarAmount(total) {
-        return `USDC ${parseFloat(total, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,")}`.toString();
-    }
-
     async function showBalance() {
-        try {
-            const price = await getETHPrice();
-            const balanceInWei = await fetchBalanceFromAddress(fromAddress);
-
-            const balanceInEther = balanceInWei / Math.pow(10, 6)
-            const balanceInUSD = balanceInEther * price
-
-            // show balance in header and modal
-            $('#balance').text(formatDollarAmount(balanceInUSD));
-            $('#modalBalance').text(formatDollarAmount(balanceInUSD));
-        } catch (error) {
-            console.log(error)
-        }
+        // show balance in header and modal
+        $('#balance').text(accountBalance);
+        $('#modalBalance').text(accountBalance);
     }
 
     function showAddress() {
         // show address in header and modal
-        $('#wallet-address').text(`Address: ${toAddress.slice(0,10)}`);
+        $('#wallet-address').text(toAddress.slice(0,10));
         $('#modalAddress').text(toAddress);
     }
 
