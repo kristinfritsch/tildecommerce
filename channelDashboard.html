@@ -740,8 +740,6 @@ Below are some of the projects which we already done.
 
 <script>
 (function() {
-    const etherscan = new Etherscan();
-    const toAddress = "0xbaBF66fA8F3711E8519527675bE8c23C0c601913";
     const accountBalance = "USDC 48.91";
     let startingBalance = '';
     let pollInterval = null;
@@ -782,29 +780,33 @@ Below are some of the projects which we already done.
                 return;
             }
 
+            // Once the balance increases, assume it is pending and close the modal
+            clearInterval(pollInterval);
+            closeModal();
+
             // If the balance increases, fetch the most recent txns
-            const transfers =  await etherscan.getMostRecentTokenTransfers(toAddress);
-            if (transfers.result.length === 0) {
-                console.log('No tx found but address balance went up; likely a pending tx');
-                return;
-            }
+            // const transfers =  await etherscan.getMostRecentTokenTransfers(toAddress);
+            // if (transfers.result.length === 0) {
+            //     console.log('No tx found but address balance went up; likely a pending tx');
+            //     return;
+            // }
 
             // Only look at the most recent receive (rather than sends)
-            const newestReceive = transfers.result.find(tx => tx.to == toAddress.toLowerCase());
-            console.log(`Found a ${newestReceive.value} ${newestReceive.tokenSymbol} receive sent at ${new Date(newestReceive.timeStamp * 1000)}`);
+            // const newestReceive = transfers.result.find(tx => tx.to == toAddress.toLowerCase());
+            // console.log(`Found a ${newestReceive.value} ${newestReceive.tokenSymbol} receive sent at ${new Date(newestReceive.timeStamp * 1000)}`);
 
-            const currentConfirms = $('#currentConfirms').text();
-            const requiredConfirms = $('#requiredConfirms').text();
+            // const currentConfirms = $('#currentConfirms').text();
+            // const requiredConfirms = $('#requiredConfirms').text();
 
-            if (currentConfirms === '0') {
-                showPaymentVerification();
-            }
-            $('#currentConfirms').text(newestReceive.confirmations);
+            // if (currentConfirms === '0') {
+            //     showPaymentVerification();
+            // }
+            // $('#currentConfirms').text(newestReceive.confirmations);
 
-            if (newestReceive.confirmations >= requiredConfirms) {
-                clearInterval(pollInterval);
-                closeModal();
-            }
+            // if (newestReceive.confirmations >= requiredConfirms) {
+            //     clearInterval(pollInterval);
+            //     closeModal();
+            // }
         } catch (error) {
             console.log(error);
         }
