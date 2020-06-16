@@ -187,12 +187,14 @@
         <div class="col-md-4">
             <h3 class="text-thin">Account Balance</h3>
             <h2 id="balance" style="margin-bottom: 10px;">-</h2>
-            <button id="withdrawFunds" class="btn button-yellow">Withdraw funds</button>
+            <button id="withdrawFunds" class="btn button-yellow">
+                <i class="fa fa-money" aria-hidden="true"></i>
+                Withdraw balance</button>
         </div>
         <div class="col-md-4">
             <h3 class="text-thin">Payment Method</h3>
-            Receive address: <span id="wallet-address"></span>
-            <button class="btn button-yellow" style="margin-top: 24px;">Edit receive address</button>
+            Withdrawal Address: <span id="wallet-address"></span>
+            <button class="btn button-yellow" style="margin-top: 24px;">Edit withdrawal address</button>
         </div>
     </div>
 </div>
@@ -312,13 +314,15 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Withdraw account balance</h4>
+                <h4 class="modal-title" id="myModalLabel">
+                    <img src="/images/usdcoin_logo.png" height="25px" />
+                    Withdraw USD Coin</h4>
             </div>
             <div class="modal-body" style="text-align: center;">
                 <h4>Amount:</h4>
                 <h3 id="modalBalance"></h3>
                 <br/>
-                <h4>Receive Address:</h4>
+                <h4>Withdrawal Address:</h4>
                 <span id="modalAddress"></span>
                 <br/>
             </div>
@@ -742,7 +746,7 @@ Below are some of the projects which we already done.
 (function() {
     const etherscan = new Etherscan();
     const toAddress = "0xbaBF66fA8F3711E8519527675bE8c23C0c601913";
-    const accountBalance = "USDC 48.91";
+    const accountBalance = "70.00 USDC";
     let startingBalance = '';
     let pollInterval = null;
 
@@ -760,7 +764,7 @@ Below are some of the projects which we already done.
 
     function closeModal() {
         // just set balance to 0 (do not fetch again)
-        $('#balance').text('USDC 0');
+        $('#balance').text('0.00 USDC');
         $('#withdrawFunds').attr('disabled');
         $('#withdrawFunds').removeClass("button-yellow");
         $('#withdrawModal').modal('hide');
