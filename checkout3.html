@@ -356,7 +356,7 @@
                             <!-- <strong>Scan the QR code or copy and paste the payment details into your wallet</strong> -->
                             <h6 class="text-gray-1 text-center">To make a payment, send USDC to the address below</h6>
                             <h1 class="text-center" style="margin-top: 10px;">48.91 USDC</h3>
-                            <p class="text-gray-3 text-center">1 USD = 60,216 IDR</p>
+                            <p class="text-gray-3 text-center">1 USD = 14000 IDR</p>
                             <!-- QR code is generated dynamically -->
                             <img class="center-block" id="qrCode"/>
                             <p class="text-gray-2">For security and fraud prevention reasons, we require <strong>ten</strong> block confirmations on the ETH blockchain
@@ -420,8 +420,8 @@
 <script src="js/ethereum/etherscan.js"></script>
 
 <script>
-    const etherscan = new Etherscan('testnet');
-    const receiveAddress = "0xD71295169658f5d0e8C19e6B42C14223D54378Ca";
+    const etherscan = new Etherscan();
+    const receiveAddress = "0xEB192D4250529570D890133b8c544Fac3F2dB3f0";
     const qrCodeImage = `https://chart.googleapis.com/chart?chs=350x350&cht=qr&chl=ethereum:${receiveAddress}`;
     let startingBalance = '';
     let pollInterval = null;
